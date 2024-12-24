@@ -1,1 +1,217 @@
 # Assignment-
+
+Step 1: Setting Up the Project
+
+1. Initialize the Project:
+    bash
+   npx create-next-app@latest my-app --typescript
+   cd my-app
+   npm install tailwindcss postcss autoprefixer
+   npx tailwindcss init
+   
+2. Configure Tailwind for Dark Mode:
+   Update `tailwind.config.js`:
+   javascript
+   module.exports = {
+     darkMode: 'class', // Use class strategy
+     content: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
+     theme: {
+       extend: {},
+     },
+     plugins: [],
+   };
+   
+3. Add Tailwind and ShadCN UI:
+   bash
+   npm install shadcn-ui
+   
+4. Basic Layout:
+   Create a `Layout` component with `Header`, `Footer`, and `DarkModeToggle`.
+
+   Example `Layout.tsx`:
+    tsx
+   import { useState } from 'react';
+
+   const Layout = ({ children }: { children: React.ReactNode }) => {
+     const [darkMode, setDarkMode] = useState(false);
+
+     return (
+       <div className={darkMode ? 'dark' : ''}>
+         <header className="p-4 bg-gray-800 text-white">Header</header>
+         <main className="p-4">{children}</main>
+         <footer className="p-4 bg-gray-800 text-white">Footer</footer>
+         <button
+           className="fixed bottom-4 right-4 p-2 bg-blue-500 text-white rounded-full"
+           onClick={() => setDarkMode(!darkMode)}
+         >
+           Toggle Dark Mode
+         </button>
+       </div>
+     );
+   };
+
+   export default Layout;
+   
+5. Install Required Dependencies:
+   bash
+   npm install zustand framer-motion
+   
+Deliverables:  
+ A Next.js project initialized with Tailwind CSS and ShadCN UI.  
+  Working dark mode toggle.
+
+Step 2: Multi-Step Form Layout
+
+1. Form Navigation:
+   Use ShadCN’s `Tabs` or build a custom stepper with TailwindCSS.
+
+2. Static Form Steps:
+   Create pages for each step (e.g., `PersonalInfo`, `AddressDetails`, etc.) and use conditional rendering.
+
+   Example Step 1 (`PersonalInfo.tsx`):
+    tsx
+   const PersonalInfo = () => (
+     <div>
+       <h2>Personal Information</h2>
+       <input type="text" placeholder="Name" className="input" />
+       <input type="email" placeholder="Email" className="input" />
+     </div>
+   );
+
+   export default PersonalInfo;
+  
+
+3. Layout the Steps:
+   Create a parent component to manage navigation between steps.
+
+   Example:
+   tsx
+   const MultiStepForm = () => {
+     const [step, setStep] = useState(1);
+
+     return (
+       <div>
+         <div className="tabs">
+           <button onClick={() => setStep(1)}>Step 1</button>
+           <button onClick={() => setStep(2)}>Step 2</button>
+           {/* Add more steps */}
+         </div>
+         {step === 1 && <PersonalInfo />}
+         {step === 2 && <AddressDetails />}
+       </div>
+     );
+   };
+
+   export default MultiStepForm;
+   
+   Deliverables:  
+Multi-step form navigation with static sections
+
+Step 3: Form State Management
+
+1. Set up Zustand:
+     bash
+   npm install zustand
+
+   Example Zustand Store:
+     tsx
+   import create from 'zustand';
+
+   const useFormStore = create((set) => ({
+     formData: {},
+     updateFormData: (data) => set((state) => ({ formData: { ...state.formData, ...data } })),
+   }));
+
+   export default useFormStore;
+   
+
+2. **Update Form Data**:
+   Use `useFormStore` in form components to update the global state.
+
+3. **Validation**:
+   Add real-time validation using libraries like `yup` or custom logic.
+
+   Example:
+     tsx
+   const validateEmail = (email) => /\S+@\S+\.\S+/.test(email);
+  
+Deliverables:  
+Form state management with dynamic updates and validation
+
+Step 4: Animations and Transitions
+
+1. Install Framer Motion:
+     bash
+   npm install framer-motion
+
+2. Add Animations:
+   Wrap form steps with `motion.div` for transitions.
+
+   Example:
+     "tsx"
+   import { motion } from 'framer-motion';
+
+   const Step = ({ children }) => (
+     <motion.div
+       initial={{ opacity: 0 }}
+       animate={{ opacity: 1 }}
+       exit={{ opacity: 0 }}
+       transition={{ duration: 0.5 }}
+     >
+       {children}
+     </motion.div>
+   );
+   
+
+3. Progress Bar:
+   Use ShadCN’s `Progress` component
+
+Deliverables:  
+Smooth transitions and animated progress tracking.
+
+Step 5: Mock API Integration
+
+1.  Create API Routes:
+   Example: `pages/api/form.js`
+     javascript
+   export default function handler(req, res) {
+     if (req.method === 'POST') {
+       res.status(200).json({ success: true });
+     }
+   }
+   
+
+2. Integrate with Frontend:
+   Fetch or update data using `fetch`.
+
+Deliverables:  
+ Real-time collaboration using mock API.
+
+Step 6: UI/UX Enhancements
+
+1. Tooltips and Placeholders:
+   Use ShadCN’s `Tooltip` for guidance.
+
+2. Responsive Design:
+   Test responsiveness with Tailwind’s utilities.
+
+3. Dark Mode Polishing:
+   Ensure all components adapt.
+
+Deliverables:  
+ Enhanced form with tooltips and responsive design.
+
+Step 7: Stretch Goals
+
+1. Toast Notifications:
+   Use ShadCN’s `Toast` for success/error messages.
+
+2. Accessibility:
+   Add ARIA roles and keyboard navigation.
+
+3. Localization:
+   Integrate `next-i18next` for multi-language support.
+
+4. Testing:
+   Write tests using Jest and React Testing Library.
+
