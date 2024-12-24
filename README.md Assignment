@@ -124,11 +124,10 @@ Step 3: Form State Management
 
    export default useFormStore;
    
-
-2. **Update Form Data**:
+2. Update Form Data:
    Use `useFormStore` in form components to update the global state.
 
-3. **Validation**:
+3. Validation:
    Add real-time validation using libraries like `yup` or custom logic.
 
    Example:
